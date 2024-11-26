@@ -1,5 +1,5 @@
-name: Create Team
-description: Action to create a team in Terraform Cloud
+name: Invite User
+description: Action to invite a user to Terraform Cloud
 inputs:
   terraform_token:
     description: 'Terraform Cloud API Token'
@@ -7,14 +7,14 @@ inputs:
   organization:
     description: 'Terraform Cloud Organization'
     required: true
-  team_name:
-    description: 'Name of the team to create'
+  user_email:
+    description: 'Email of the user to invite'
     required: true
 
 runs:
   using: "composite"
   steps:
-    - name: Crear Equipo
+    - name: Invitar Usuario
       run: |
         curl \
           --header "Authorization: Bearer ${{ inputs.terraform_token }}" \
@@ -22,10 +22,10 @@ runs:
           --request POST \
           --data '{
             "data": {
-              "type": "teams",
+              "type": "organization-memberships",
               "attributes": {
-                "name": "${{ inputs.team_name }}"
+                "email": "${{ inputs.user_email }}"
               }
             }
           }' \
-          https://app.terraform.io/api/v2/organizations/${{ inputs.organization }}/teams
+          https://app.terraform.io/api/v2/organizations/${{ inputs.organization }}/organization-memberships
