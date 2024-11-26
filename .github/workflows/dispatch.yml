@@ -1,0 +1,27 @@
+name: Workflow Dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_name:
+        description: 'Nombre del proyecto a crear'
+        required: true
+      team_name:
+        description: 'Nombre del equipo a crear'
+        required: true
+      user_email:
+        description: 'Correo electrónico del usuario a invitar'
+        required: true
+
+jobs:
+  trigger_orchestrator:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run orchestrator script
+        run: |
+          echo "Project Name: ${{ github.event.inputs.project_name }}"
+          echo "Team Name: ${{ github.event.inputs.team_name }}"
+          echo "User Email: ${{ github.event.inputs.user_email }}"
