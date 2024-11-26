@@ -28,7 +28,7 @@ jobs:
         uses: ./actions/create_project
         with:
           terraform_token: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
-          organization: "tu-organizacion"
+          organization: "CODELIKE-CLOUD"
           project_name: ${{ inputs.project_name }}
 
   create_team:
@@ -42,7 +42,7 @@ jobs:
         uses: ./actions/create_team
         with:
           terraform_token: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
-          organization: "tu-organizacion"
+          organization: "CODELIKE-CLOUD"
           team_name: ${{ inputs.team_name }}
 
   invite_user:
@@ -56,6 +56,6 @@ jobs:
         uses: ./actions/invite_user
         with:
           terraform_token: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
-          organization: "tu-organizacion"
+          organization: "CODELIKE-CLOUD"
           user_email: ${{ inputs.user_email }}
 
