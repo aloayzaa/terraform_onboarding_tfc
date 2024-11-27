@@ -41,3 +41,5 @@ jobs:
               ref: context.ref,
               inputs: inputs
             });
+        env:
+         GITHUB_TOKEN: ${{ secrets.PAT }}
