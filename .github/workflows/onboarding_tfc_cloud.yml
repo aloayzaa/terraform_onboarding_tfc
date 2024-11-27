@@ -24,6 +24,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
+      - name: Verify Inputs
+        run: |
+          echo "Project Name: ${{ inputs.project_name }}"
+          echo "Team Name: ${{ inputs.team_name }}"
+          echo "User Email: ${{ inputs.user_email }}"
+
       - name: Crear Proyecto en Terraform Cloud
         uses: ./actions/create_project
         with:
