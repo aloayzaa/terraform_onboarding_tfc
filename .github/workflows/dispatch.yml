@@ -1,21 +1,10 @@
 name: Dispatch Workflow
 
 on:
-  workflow_dispatch:
-    inputs:
-      project_name:
-        description: 'Nombre del proyecto a crear'
-        required: true
-        type: string
-      team_name:
-        description: 'Nombre del equipo a crear'
-        required: true
-        type: string
-      user_email:
-        description: 'Correo electrónico del usuario a invitar'
-        required: true
-        type: string
-
+        push:
+          branches:
+            - main  #
+ 
 
 
 jobs:
@@ -30,9 +19,9 @@ jobs:
         with:
           script: |
             const inputs = {
-              project_name: '${{ github.event.inputs.project_name }}',
-              team_name: '${{ github.event.inputs.team_name }}',
-              user_email: '${{ github.event.inputs.user_email }}'
+              project_name: 'IAAC',
+              team_name: 'PILOTO',
+              user_email: 'loayzaascatea@gmail.com'
             };
             github.actions.createWorkflowDispatch({
               owner: context.repo.owner,
