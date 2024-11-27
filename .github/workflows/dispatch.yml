@@ -29,6 +29,9 @@ jobs:
               workflow_id: 'onboarding_tfc_cloud.yml',
               ref: "main",
               inputs: inputs
+            headers: {
+            authorization: `token ${process.env.PAT_TOKEN}` // Usar el PAT aquí
+            }
             });
         env:
-         GITHUB_TOKEN: ${{ secrets.PAT }}
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
