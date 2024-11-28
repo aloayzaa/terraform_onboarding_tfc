@@ -2,9 +2,21 @@
 name: Orchestrator Workflow
 
 on:
-  push:
-    branches:
-      - main 
+  workflow_dispatch:
+    inputs:
+      project_name:
+        description: 'Nombre del proyecto'
+        required: true
+        type: string
+      team_name:
+        description: 'Nombre del equipo'
+        required: true
+        type: string
+      user_email:
+        description: 'Correo del usuario'
+        required: true
+        type: string
+
 jobs:
   create_project:
     runs-on: ubuntu-latest
