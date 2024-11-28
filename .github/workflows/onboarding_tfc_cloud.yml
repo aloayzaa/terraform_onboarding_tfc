@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Crear Proyecto en Terraform Cloud
-        uses: ./actions/create_project
+        uses: ./onboarding_to_tfc/create_project
         with:
           terraform_token: ${{ secrets.TERRAFORM_CLUOD_TOKEN }}
           organization: "CODELIKE-CLOUD"
@@ -30,7 +30,7 @@ jobs:
     needs: create_project
     steps:
       - name: Crear Equipo en Terraform Cloud
-        uses: ./actions/create_team
+        uses: ./onboarding_to_tfc/create_team
         with:
           terraform_token: ${{ secrets.TERRAFORM_CLUOD_TOKEN }}
           organization: "CODELIKE-CLOUD"
@@ -42,7 +42,7 @@ jobs:
     needs: create_team
     steps:
       - name: Invitar Usuario a Terraform Cloud
-        uses: ./actions/invite_user
+        uses: ./onboarding_to_tfc/invite_users
         with:
           terraform_token: ${{ secrets.TERRAFORM_CLUOD_TOKEN }}
           organization: "CODELIKE-CLOUD"
