@@ -1,21 +1,9 @@
-# This is a basic workflow to help you get started with Actions
 name: Orchestrator Workflow
 
 on:
-  workflow_dispatch:
-    inputs:
-      project_name:
-        description: 'Nombre del proyecto'
-        required: true
-        type: string
-      team_name:
-        description: 'Nombre del equipo'
-        required: true
-        type: string
-      user_email:
-        description: 'Correo del usuario'
-        required: true
-        type: string
+  push:
+    branches:
+      - main  # Especifica la rama en la que deseas que se dispare el workflow
 
 jobs:
   create_project:
@@ -30,9 +18,9 @@ jobs:
           terraform_token: ${{ secrets.TERRAFORM_CLUD_TOKEN }}
           organization: "CODELIKE-CLOUD"
           project_name: 'IAAC'
+          
   create_team:
     runs-on: ubuntu-latest
-    needs: create_project
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -44,7 +32,6 @@ jobs:
           organization: "CODELIKE-CLOUD"
           team_name: 'PILOTO'
           user_email: 'loayzaascatea@gmail.com'
-
 
   invite_user:
     runs-on: ubuntu-latest
