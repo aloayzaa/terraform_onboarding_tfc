@@ -17,9 +17,6 @@ jobs:
   create_project:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
       - name: Crear Proyecto en Terraform Cloud
         uses: ./actions/create_project
         with:
@@ -30,9 +27,6 @@ jobs:
   create_team:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
       - name: Crear Equipo en Terraform Cloud
         uses: ./actions/create_team
         with:
@@ -45,9 +39,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: create_team
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
       - name: Invitar Usuario a Terraform Cloud
         uses: ./actions/invite_user
         with:

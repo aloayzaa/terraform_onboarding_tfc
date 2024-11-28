@@ -8,9 +8,6 @@ jobs:
   trigger_orchestrator:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
       - name: Trigger Orchestrator Workflow
         uses: actions/github-script@v4
         with:
