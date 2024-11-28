@@ -20,17 +20,18 @@ jobs:
       - name: Crear Proyecto en Terraform Cloud
         uses: ./actions/create_project
         with:
-          terraform_token: ${{ secrets.TERRAFORM_CLUD_TOKEN }}
+          terraform_token: ${{ secrets.TERRAFORM_CLUOD_TOKEN }}
           organization: "CODELIKE-CLOUD"
           project_name: ${{ inputs.project_name }}
           
   create_team:
     runs-on: ubuntu-latest
+    needs: create_project
     steps:
       - name: Crear Equipo en Terraform Cloud
         uses: ./actions/create_team
         with:
-          terraform_token: ${{ secrets.TERRAFORM_CLUD_TOKEN }}
+          terraform_token: ${{ secrets.TERRAFORM_CLUOD_TOKEN }}
           organization: "CODELIKE-CLOUD"
           team_name: ${{ inputs.team_name }}
           user_email: ${{ inputs.user_email }}
@@ -42,7 +43,7 @@ jobs:
       - name: Invitar Usuario a Terraform Cloud
         uses: ./actions/invite_user
         with:
-          terraform_token: ${{ secrets.TERRAFORM_CLUD_TOKEN }}
+          terraform_token: ${{ secrets.TERRAFORM_CLUOD_TOKEN }}
           organization: "CODELIKE-CLOUD"
           team_name: ${{ inputs.team_name }}
           user_email: ${{ inputs.user_email }}
