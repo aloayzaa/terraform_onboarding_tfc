@@ -1,40 +1,57 @@
 name: Orchestrator Workflow
 
 on:
-  push:
-    branches:
-      - main  # Especifica la rama en la que deseas que se dispare el workflow
+  workflow_dispatch:
+    inputs:
+      project_name:
+        required: true
+        type: string
+      team_name:
+        required: true
+        type: string
+      user_email:
+        required: true
+        type: string
 
 jobs:
   create_project:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
       - name: Crear Proyecto en Terraform Cloud
         uses: ./actions/create_project
         with:
           terraform_token: ${{ secrets.TERRAFORM_CLUD_TOKEN }}
           organization: "CODELIKE-CLOUD"
-          project_name: 'IAAC'
+          project_name: ${{ inputs.project_name }}
           
   create_team:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
       - name: Crear Equipo en Terraform Cloud
         uses: ./actions/create_team
         with:
           terraform_token: ${{ secrets.TERRAFORM_CLUD_TOKEN }}
           organization: "CODELIKE-CLOUD"
-          team_name: 'PILOTO'
-          user_email: 'loayzaascatea@gmail.com'
+          team_name: ${{ inputs.team_name }}
+          user_email: ${{ inputs.user_email }}
 
   invite_user:
     runs-on: ubuntu-latest
     needs: create_team
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
       - name: Invitar Usuario a Terraform Cloud
         uses: ./actions/invite_user
         with:
           terraform_token: ${{ secrets.TERRAFORM_CLUD_TOKEN }}
           organization: "CODELIKE-CLOUD"
-          team_name: 'PILOTO'
-          user_email: 'loayzaascatea@gmail.com'
+          team_name: ${{ inputs.team_name }}
+          user_email: ${{ inputs.user_email }}

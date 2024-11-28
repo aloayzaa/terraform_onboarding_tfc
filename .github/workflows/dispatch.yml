@@ -15,20 +15,16 @@ jobs:
         uses: actions/github-script@v4
         with:
           script: |
-            const inputs = {
-              project_name: 'IAAC',
-              team_name: 'PILOTO',
-              user_email: 'loayzaascatea@gmail.com'
-            };
-            await github.actions.createWorkflowDispatch({
+            github.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: 'onboarding_tfc_cloud.yml',
               ref: "main", // Rama desde donde se dispara
-              inputs: inputs,
-              headers: {
-                authorization: `token ${process.env.PAT_TOKEN}` // Uso explícito del PAT_TOKEN
-              }
+              inputs: {
+                project_name: 'IAAC',
+                team_name: 'PILOTO',
+                user_email: 'loayzaascatea@gmail.com'
+                }
             });
         env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN}}
