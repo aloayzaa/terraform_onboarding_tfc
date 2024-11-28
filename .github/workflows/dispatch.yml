@@ -1,8 +1,8 @@
-name: Dispatch Workflow
+name: Workflow
 
 on:
-        push:
-          branches:
+  push:
+      branches:
             - main  # Rama desde donde se dispara
 jobs:
   trigger_orchestrator:
