@@ -19,7 +19,7 @@ jobs:
               ref: "main", // Rama desde donde se dispara
               inputs: {
                 project_name: 'APP8',
-                team_name: 'PILOTO',
+                team_name: 'THIAGO',
                 user_email: 'loayzaascatea@gmail.com'
                 }
             });
