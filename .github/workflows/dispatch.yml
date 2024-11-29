@@ -18,7 +18,7 @@ jobs:
               workflow_id: 'onboarding_tfc_cloud.yml',
               ref: "main", // Rama desde donde se dispara
               inputs: {
-                project_name: 'APP5',
+                project_name: 'APP8',
                 team_name: 'PILOTO',
                 user_email: 'loayzaascatea@gmail.com'
                 }
