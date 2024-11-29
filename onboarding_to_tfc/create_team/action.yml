@@ -19,15 +19,20 @@ runs:
       shell: bash
       run: |
         curl \
-          --header "Authorization: Bearer ${{ inputs.terraform_token }}" \
-          --header "Content-Type: application/vnd.api+json" \
-          --request POST \
-          --data '{
-            "data": {
-              "type": "teams",
-              "attributes": {
-                "name": "${{ inputs.team_name }}"
+              --header "Authorization: Bearer ${{ inputs.terraform_token }}" \
+              --header "Content-Type: application/vnd.api+json" \
+              --request POST \
+              --data '{
+              "data": {
+                "type": "teams",
+                "attributes": {
+                "name": "${{ inputs.team_name }}",
+                "organization-access": {
+                  "manage-workspaces": true,
+                  "manage-vcs-settings": true,
+                  "manage-policies": true
+                }
+                }
               }
-            }
-          }' \
-          https://app.terraform.io/api/v2/organizations/${{ inputs.organization }}/teams
+              }' \
+              https://app.terraform.io/api/v2/organizations/${{ inputs.organization }}/teams
