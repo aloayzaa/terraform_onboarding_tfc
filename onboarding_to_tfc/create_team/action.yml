@@ -26,11 +26,7 @@ runs:
               "data": {
                 "type": "teams",
                 "attributes": {
-                "name": "${{ inputs.team_name }}",
-                "organization-access": {
-                  "manage-workspaces": true,
-                  "manage-vcs-settings": true,
-                  "manage-policies": true
+                    "name": "${{ inputs.team_name }}"
                 }
                 }
               }
