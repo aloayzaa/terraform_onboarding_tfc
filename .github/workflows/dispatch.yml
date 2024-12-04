@@ -18,8 +18,8 @@ jobs:
               workflow_id: 'onboarding_tfc_cloud.yml',
               ref: "main", // Rama desde donde se dispara
               inputs: {
-                project_name: 'APP2',
-                team_name: 'ZEUS',
+                project_name: 'APP3',
+                team_name: 'APIM',
                 user_email: 'loayzaascatea@gmail.com'
                 }
             });

@@ -44,7 +44,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Invitar Usuario a Terraform Cloud
-        uses: ./onboarding_to_tfc/invite_users
+        uses: ./onboarding_to_tfc/invite_user_to_project
         with:
           terraform_token: ${{ secrets.TERRAFORM_CLUOD_TOKEN }}
           organization: "CODELIKE-CLOUD"
