@@ -10,24 +10,73 @@ inputs:
   user_email:
     description: 'Email of the user to invite'
     required: true
+  team_name:
+    description: 'Name of the team to add the user to'
+    required: true
 
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v4
-    - name: Invitar Usuario
-      shell: bash
-      run: |
-        curl \
-          --header "Authorization: Bearer ${{ inputs.terraform_token }}" \
-          --header "Content-Type: application/vnd.api+json" \
-          --request POST \
-          --data '{
-            "data": {
-              "type": "organization-memberships",
-              "attributes": {
-                "email": "${{ inputs.user_email }}"
-              }
+  - uses: actions/checkout@v4
+  - name: Verificar si el Usuario ya está en la Organización
+    id: check_user
+    shell: bash
+    run: |
+      USER_EXISTS=$(curl -s \
+        --header "Authorization: Bearer ${{ inputs.terraform_token }}" \
+        --header "Content-Type: application/vnd.api+json" \
+        --request GET \
+        https://app.terraform.io/api/v2/organizations/${{ inputs.organization }}/organization-memberships | jq -r '.data[] | select(.attributes.email=="${{ inputs.user_email }}") | .id')
+
+      if [ -n "$USER_EXISTS" ]; then
+        echo "El usuario ya es miembro de la organización."
+        echo "::set-output name=user_exists::true"
+      else
+        echo "El usuario no es miembro de la organización."
+        echo "::set-output name=user_exists::false"
+      fi
+
+  - name: Invitar Usuario
+    shell: bash
+    run: |
+      curl \
+        --header "Authorization: Bearer ${{ inputs.terraform_token }}" \
+        --header "Content-Type: application/vnd.api+json" \
+        --request POST \
+        --data '{
+          "data": {
+            "type": "organization-memberships",
+            "attributes": {
+              "email": "${{ inputs.user_email }}"
             }
-          }' \
-          https://app.terraform.io/api/v2/organizations/${{ inputs.organization }}/organization-memberships
+          }
+        }' \
+        https://app.terraform.io/api/v2/organizations/${{ inputs.organization }}/organization-memberships
+
+  - name: Añadir Usuario al Equipo
+    shell: bash
+    run: |
+      TEAM_ID=$(curl -s \
+        --header "Authorization: Bearer ${{ inputs.terraform_token }}" \
+        --header "Content-Type: application/vnd.api+json" \
+        --request GET \
+        https://app.terraform.io/api/v2/organizations/${{ inputs.organization }}/teams | jq -r '.data[] | select(.attributes.name=="${{ inputs.team_name }}") | .id')
+
+      if [ -z "$TEAM_ID" ]; then
+        echo "El equipo ${{ inputs.team_name }} no existe."
+        exit 1
+      fi
+
+      curl \
+        --header "Authorization: Bearer ${{ inputs.terraform_token }}" \
+        --header "Content-Type: application/vnd.api+json" \
+        --request POST \
+        --data '{
+          "data": {
+            "type": "team-memberships",
+            "attributes": {
+              "user-email": "${{ inputs.user_email }}"
+            }
+          }
+        }' \
+        https://app.terraform.io/api/v2/teams/$TEAM_ID/team-memberships

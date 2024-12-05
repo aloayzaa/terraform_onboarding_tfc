@@ -20,7 +20,7 @@ jobs:
               inputs: {
                 project_name: 'APP4',
                 team_name: 'APIM',
-                user_email: 'hansramosaguilar@gmail.com'
+                user_email: 'loayzaascatea@gmail.com'
                 }
             });
         env:

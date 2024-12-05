@@ -4,12 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       project_name:
+        description: 'Name of the project to create'
         required: true
         type: string
       team_name:
+        description: 'Name of the team to create'
         required: true
         type: string
       user_email:
+        description: 'Email of the user to invite'
         required: true
         type: string
 
@@ -17,36 +20,36 @@ jobs:
   create_project:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Crear Proyecto en Terraform Cloud
-        uses: ./onboarding_to_tfc/create_project
-        with:
-          terraform_token: ${{ secrets.TERRAFORM_CLUOD_TOKEN }}
-          organization: "CODELIKE-CLOUD"
-          project_name: ${{ inputs.project_name }}
-          
+    - uses: actions/checkout@v4
+    - name: Crear Proyecto en Terraform Cloud
+      uses: ./onboarding_to_tfc/create_project
+      with:
+        terraform_token: ${{ secrets.TERRAFORM_CLUOD_TOKEN }}
+        organization: "CODELIKE-CLOUD"
+        project_name: ${{ inputs.project_name }}
+
   create_team:
     runs-on: ubuntu-latest
     needs: create_project
     steps:
-      - uses: actions/checkout@v4
-      - name: Crear Equipo en Terraform Cloud
-        uses: ./onboarding_to_tfc/create_team
-        with:
-          terraform_token: ${{ secrets.TERRAFORM_CLUOD_TOKEN }}
-          organization: "CODELIKE-CLOUD"
-          team_name: ${{ inputs.team_name }}
-          user_email: ${{ inputs.user_email }}
+    - uses: actions/checkout@v4
+    - name: Crear Equipo en Terraform Cloud
+      uses: ./onboarding_to_tfc/create_team
+      with:
+        terraform_token: ${{ secrets.TERRAFORM_CLUOD_TOKEN }}
+        organization: "CODELIKE-CLOUD"
+        team_name: ${{ inputs.team_name }}
+        user_email: ${{ inputs.user_email }}
 
   invite_user:
     runs-on: ubuntu-latest
     needs: create_team
     steps:
-      - uses: actions/checkout@v4
-      - name: Invitar Usuario a Terraform Cloud
-        uses: ./onboarding_to_tfc/invite_user_to_project
-        with:
-          terraform_token: ${{ secrets.TERRAFORM_CLUOD_TOKEN }}
-          organization: "CODELIKE-CLOUD"
-          team_name: ${{ inputs.team_name }}
-          user_email: ${{ inputs.user_email }}
+    - uses: actions/checkout@v4
+    - name: Invitar Usuario a Terraform Cloud
+      uses: ./onboarding_to_tfc/invite_user_to_project
+      with:
+        terraform_token: ${{ secrets.TERRAFORM_CLUOD_TOKEN }}
+        organization: "CODELIKE-CLOUD"
+        team_name: ${{ inputs.team_name }}
+        user_email: ${{ inputs.user_email }}
