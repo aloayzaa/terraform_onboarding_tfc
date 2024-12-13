@@ -18,23 +18,23 @@ runs:
   using: "composite"
   steps:
   - uses: actions/checkout@v4
-  - name: Verificar si el Usuario ya está en la Organización
-    id: check_user
-    shell: bash
-    run: |
-      USER_EXISTS=$(curl -s \
-        --header "Authorization: Bearer ${{ inputs.terraform_token }}" \
-        --header "Content-Type: application/vnd.api+json" \
-        --request GET \
-        https://app.terraform.io/api/v2/organizations/${{ inputs.organization }}/organization-memberships | jq -r '.data[] | select(.attributes.email=="${{ inputs.user_email }}") | .id')
+  # - name: Verificar si el Usuario ya está en la Organización
+  #   id: check_user
+  #   shell: bash
+  #   run: |
+  #     USER_EXISTS=$(curl -s \
+  #       --header "Authorization: Bearer ${{ inputs.terraform_token }}" \
+  #       --header "Content-Type: application/vnd.api+json" \
+  #       --request GET \
+  #       https://app.terraform.io/api/v2/organizations/${{ inputs.organization }}/organization-memberships | jq -r '.data[] | select(.attributes.email=="${{ inputs.user_email }}") | .id')
 
-      if [ -n "$USER_EXISTS" ]; then
-        echo "El usuario ya es miembro de la organización."
-        echo "::set-output name=user_exists::true"
-      else
-        echo "El usuario no es miembro de la organización."
-        echo "::set-output name=user_exists::false"
-      fi
+  #     if [ -n "$USER_EXISTS" ]; then
+  #       echo "El usuario ya es miembro de la organización."
+  #       echo "::set-output name=user_exists::true"
+  #     else
+  #       echo "El usuario no es miembro de la organización."
+  #       echo "::set-output name=user_exists::false"
+  #     fi
 
   - name: Invitar Usuario
     shell: bash

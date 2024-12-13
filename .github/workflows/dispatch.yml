@@ -18,8 +18,8 @@ jobs:
               workflow_id: 'onboarding_tfc_cloud.yml',
               ref: "main", // Rama desde donde se dispara
               inputs: {
-                project_name: 'IACG',
-                team_name: 'IACG',
+                project_name: 'OGLA',
+                team_name: 'OGLA',
                 user_email: 'loayzaascatea@gmail.com'
                 }
             });
