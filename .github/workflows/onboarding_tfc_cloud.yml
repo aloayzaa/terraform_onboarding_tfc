@@ -53,3 +53,17 @@ jobs:
         organization: "CODELIKE-CLOUD"
         team_name: ${{ inputs.team_name }}
         user_email: ${{ inputs.user_email }}
+
+  issign_team_to_project:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Assign Team to Project
+      uses: ./onboarding_to_tfc/assign-team-to-project
+      with:
+        terraform_token: ${{ secrets.TERRAFORM_TOKEN }}
+        organization: "CODELIKE-CLOUD"
+        team_name: ${{ inputs.team_name }}
+        project_name: ${{ inputs.user_email }}

@@ -1,0 +1,70 @@
+name: 'Assign Team to Project'
+description: 'Assign a team to a project in Terraform Cloud'
+inputs:
+  terraform_token:
+    description: 'Terraform Cloud API Token'
+    required: true
+  organization:
+    description: 'Terraform Cloud Organization'
+    required: true
+  team_name:
+    description: 'Team Name'
+    required: true
+  project_name:
+    description: 'Project Name'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+  - name: Obtener ID del Equipo
+    id: get_team_id
+    shell: bash
+    run: |
+      TEAM_ID=$(curl -s \
+        --header "Authorization: Bearer ${{ inputs.terraform_token }}" \
+        --header "Content-Type: application/vnd.api+json" \
+        --request GET \
+        https://app.terraform.io/api/v2/organizations/${{ inputs.organization }}/teams | jq -r '.data[] | select(.attributes.name=="${{ inputs.team_name }}") | .id')
+
+      if [ -z "$TEAM_ID" ]; then
+        echo "El equipo ${{ inputs.team_name }} no existe."
+        exit 1
+      fi
+
+      echo "::set-output name=team_id::$TEAM_ID"
+
+  - name: Obtener ID del Proyecto
+    id: get_project_id
+    shell: bash
+    run: |
+      PROJECT_ID=$(curl -s \
+        --header "Authorization: Bearer ${{ inputs.terraform_token }}" \
+        --header "Content-Type: application/vnd.api+json" \
+        --request GET \
+        https://app.terraform.io/api/v2/organizations/${{ inputs.organization }}/projects | jq -r '.data[] | select(.attributes.name=="${{ inputs.project_name }}") | .id')
+
+      if [ -z "$PROJECT_ID" ]; then
+        echo "El proyecto ${{ inputs.project_name }} no existe."
+        exit 1
+      fi
+
+      echo "::set-output name=project_id::$PROJECT_ID"
+
+  - name: Asignar Equipo al Proyecto
+    shell: bash
+    run: |
+      curl \
+        --header "Authorization: Bearer ${{ inputs.terraform_token }}" \
+        --header "Content-Type: application/vnd.api+json" \
+        --request POST \
+        --data '{
+          "data": {
+            "type": "team-project-assignments",
+            "attributes": {
+              "team-id": "${{ steps.get_team_id.outputs.team_id }}",
+              "project-id": "${{ steps.get_project_id.outputs.project_id }}"
+            }
+          }
+        }' \
+        https://app.terraform.io/api/v2/team-project-assignments

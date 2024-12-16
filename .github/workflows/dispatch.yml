@@ -18,9 +18,9 @@ jobs:
               workflow_id: 'onboarding_tfc_cloud.yml',
               ref: "main", // Rama desde donde se dispara
               inputs: {
-                project_name: 'OGLA',
-                team_name: 'OGLA',
-                user_email: 'loayzaascatea@gmail.com'
+                project_name: 'BADI',
+                team_name: 'BADI',
+                user_email: 'aascatem@gmail.com'
                 }
             });
         env:
