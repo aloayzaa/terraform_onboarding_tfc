@@ -61,7 +61,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Assign Team to Project
-      uses: ./onboarding_to_tfc/assign-team-to-project
+      uses: ./onboarding_to_tfc/assign_team_to_project
       with:
         terraform_token: ${{ secrets.TERRAFORM_TOKEN }}
         organization: "CODELIKE-CLOUD"
